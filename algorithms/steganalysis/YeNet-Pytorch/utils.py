@@ -78,19 +78,6 @@ class DatasetPair(Dataset):
             samples = self.transform(samples)
         return samples
 
-# class RandomBalancedSampler(Sampler):
-#     def __init__(self, data_source):
-#         self.data_source = data_source
-
-#     def __iter__(self):
-#         cover_perm = [x * 2 for x in torch.randperm( int(len(self.data_source) / 2)).long()]
-#         stego_perm = [x * 2 + 1 for x in torch.randperm( int(len(self.data_source) / 2)).long()]
-#         return iter(it.next() for it in \
-#                     itertools.cycle([iter(cover_perm), iter(stego_perm)]))
-
-#     def __len__(self):
-#         return len(self.data_source)
-
 class RandomBalancedSampler(Sampler):
     def __init__(self, data_source):
         self.data_source = data_source

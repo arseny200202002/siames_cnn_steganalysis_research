@@ -169,19 +169,16 @@ class StegoDataset(Dataset):
             # Проверяем, есть ли уже расширение в имени
             if '.' in filename:
                 # Если расширение уже есть, используем как есть
-                cover_path = os.path.join(self.cover_dir, filename)
+                cover_filename = f'{self.resize_strategy}_{self.W}_{self.H}_{filename}'
+                cover_path = os.path.join(self.cover_dir, cover_filename)
                 if os.path.exists(cover_path):
                     return cover_path
             else:
                 # Если нет расширения, пробуем добавить
-                cover_path = os.path.join(self.cover_dir, filename + ext)
+                cover_filename = f'{self.resize_strategy}_{self.W}_{self.H}_{filename}'
+                cover_path = os.path.join(self.cover_dir, cover_filename + ext)
                 if os.path.exists(cover_path):
                     return cover_path
-                
-                # Также пробуем в нижнем регистре
-                cover_path_lower = os.path.join(self.cover_dir, filename.lower() + ext)
-                if os.path.exists(cover_path_lower):
-                    return cover_path_lower
         
         return None
     
@@ -204,6 +201,6 @@ class StegoDataset(Dataset):
             image = self.transform(image)
 
         label = torch.tensor(item['label'], dtype=torch.long)
-        sample = {'image': image, 'label': label}
+        sample = {'images': image, 'labels': label}
         
         return sample
